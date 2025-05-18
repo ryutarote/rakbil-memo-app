@@ -23,7 +23,6 @@ export const CreateMemoButton: React.FC<CreateMemoButtonProps> = ({
 				}`}
 			title={isDisabled ? 'カテゴリを展開してメモを追加' : '新規メモ作成'}
 		>
-			{/* 課題では "NEW" または "+" とあるので、ここでは日本語で「新規メモ」 */}
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
 				className='h-5 w-5 inline-block mr-1'

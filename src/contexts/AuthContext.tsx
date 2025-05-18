@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [accessToken, setAccessToken] = useState<AccessToken | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(false); // ログイン処理中のローディング
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const login = useCallback((token: AccessToken) => {
 		setAccessToken(token);
@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const logout = useCallback(() => {
 		setAccessToken(null);
-		// 必要であればlocalStorageからも削除
 	}, []);
 
 	const isLoggedIn = !!accessToken;

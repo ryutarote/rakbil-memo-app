@@ -1,6 +1,6 @@
 export interface Category {
 	id: number;
-	name: string; // API仕様では 'name'
+	name: string;
 }
 
 export interface Memo {

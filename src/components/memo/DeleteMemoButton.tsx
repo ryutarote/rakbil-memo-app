@@ -11,7 +11,7 @@ export const DeleteMemoButton: React.FC<DeleteMemoButtonProps> = ({
 }) => {
 	return (
 		<button
-			id='delete-memo' // 課題で指定されたID
+			id='delete-memo' // 指定されたID
 			type='button'
 			onClick={onClick}
 			disabled={isDisabled}

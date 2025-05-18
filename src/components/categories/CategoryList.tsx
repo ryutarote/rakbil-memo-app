@@ -6,7 +6,7 @@ interface CategoryListProps {
 	categories: Category[];
 	expandedCategoryId: number | null;
 	onCategoryToggle: (categoryId: number) => void;
-	// renderMemosForCategory は、CategoryItemUI の children として渡すコンポーネントを生成する関数
+	// renderMemosForCategory は、CategoryItem の children として渡すコンポーネントを生成する関数
 	renderMemosForCategory: (categoryId: number) => React.ReactNode;
 }
 

@@ -27,15 +27,11 @@ export const MemoListLoader: React.FC<MemoListLoaderProps> = ({
 		data: memosResult,
 		error,
 		isLoading,
-	} = useSWR(
-		swrKey,
-		// SWR v2以降では、fetcherの第一引数はキー全体。キーが配列の場合、配列として渡される。
-		async (key) => {
-			// keyが配列であることを前提に型アサーション
-			const [, token, catId] = key as [string, AccessToken, number];
-			return getMemosByCategory(token, catId);
-		}
-	);
+	} = useSWR(swrKey, async (key) => {
+		// keyが配列であることを前提に型アサーション
+		const [, token, catId] = key as [string, AccessToken, number];
+		return getMemosByCategory(token, catId);
+	});
 
 	if (isLoading) {
 		return (

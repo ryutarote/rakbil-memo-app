@@ -4,8 +4,8 @@ import type { Category } from '@/types/api';
 interface CategoryItemProps {
 	category: Category;
 	isExpanded: boolean;
-	onToggleClick: () => void; // クリックハンドラはIDではなく、単純なトグルイベントを通知
-	children?: React.ReactNode; // 展開時にメモリストなどを表示するためのスロット
+	onToggleClick: () => void;
+	children?: React.ReactNode;
 }
 
 export const CategoryItem: React.FC<CategoryItemProps> = ({
@@ -30,7 +30,7 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
 				role='button'
 				aria-expanded={isExpanded}
 				aria-controls={`memos-for-category-${category.id}`}
-				tabIndex={0} // キーボード操作可能にする
+				tabIndex={0} // キーボード操作を可能にするために tabIndex を追加
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') onToggleClick();
 				}} // キーボード操作

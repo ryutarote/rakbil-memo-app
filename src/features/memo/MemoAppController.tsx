@@ -19,13 +19,11 @@ export const MemoAppController: React.FC = () => {
 		handleMemoUpdated,
 		handleCreateMemo,
 		handleDeleteMemo,
-		handleEditorClose,
 	} = useMemoApp();
 
-	// renderMemosForCategory は MemoAppController 内で useCallback するのが適切
-	// なぜなら、MemoListLoader に渡す onMemoSelect が handleMemoSelect に依存し、
+	// MemoListLoader に渡す onMemoSelect が handleMemoSelect に依存し、
 	// handleMemoSelect は selectedMemoId の state をクロージャに持つため。
-	// もしフックに移動させると、selectedMemoId の更新がフック内のコールバックに反映されにくい。
+	// hooksに移動させると、selectedMemoId の更新がフック内のコールバックに反映されにくい。
 	const renderMemosForCategory = useCallback(
 		(categoryId: number) => {
 			return (
@@ -102,7 +100,6 @@ export const MemoAppController: React.FC = () => {
 				<MemoEditorController
 					selectedMemoId={selectedMemoId}
 					onMemoUpdated={handleMemoUpdated}
-					onEditorClose={handleEditorClose}
 				/>
 			</section>
 		</div>

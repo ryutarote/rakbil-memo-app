@@ -7,7 +7,12 @@ import {
 	deleteMemo as apiDeleteMemo,
 	getMemoDetail,
 } from '@/services/memoService';
-import type { CreateMemoPayload, MemoDetail, Category } from '@/types/api';
+import type {
+	CreateMemoPayload,
+	MemoDetail,
+	Category,
+	Memo,
+} from '@/types/api';
 import type { Result } from '@/lib/result';
 import type { AccessToken } from '@/domain/auth/types';
 
@@ -70,8 +75,31 @@ export function useMemoApp() {
 					accessToken,
 					updatedMemo.category_id,
 				];
-				await mutate(listKey);
+				mutate(
+					listKey,
+					(currentData: Result<Memo[], Error> | undefined) => {
+						if (currentData && currentData.ok) {
+							const newMemos = currentData.value.map((memo) =>
+								memo.id === updatedMemo.id
+									? { ...memo, title: updatedMemo.title }
+									: memo
+							);
+							return { ...currentData, value: newMemos };
+						}
+						return currentData;
+					},
+					{ revalidate: true }
+				);
+
+				// 詳細キャッシュも更新
+				const detailKey = [`/memo/${updatedMemo.id}`, accessToken];
+				await mutate(
+					detailKey,
+					{ ok: true, value: updatedMemo },
+					{ revalidate: false }
+				);
 			}
+			setOperationError(null);
 		},
 		[accessToken, mutate]
 	);

@@ -1,25 +1,31 @@
 import { Result, ok, err } from './result';
 import type { AccessToken } from '@/domain/auth/types';
 
-const API_BASE_URL = 'https://challenge-server.tracks.run/memoapp';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface FetchOptions extends RequestInit {
 	accessToken?: AccessToken;
+	tokenRequired?: boolean;
 }
 
 async function fetchApi<T>(
 	endpoint: string,
 	options: FetchOptions = {}
 ): Promise<Result<T, Error>> {
-	const { accessToken, ...fetchOptions } = options;
+	const { accessToken, tokenRequired, ...fetchOptions } = options;
 	const headers = new Headers(fetchOptions.headers || {});
 	headers.set('Content-Type', 'application/json');
 
+	// トークン必須のAPIでトークンがない場合に事前エラーチェック
+	if (tokenRequired && !accessToken) {
+		console.warn(
+			`Token is required for endpoint: ${endpoint}, but was not provided.`
+		);
+		return err(new Error('Access token is required for this request.'));
+	}
+
 	if (accessToken) {
 		headers.set('X-ACCESS-TOKEN', accessToken);
-	} else {
-		// トークンなしの場合のAPI仕様は404だが、ここでは呼び出し側がトークンの有無を制御すると仮定。
-		// もしトークンが必須のAPIにトークンなしで呼び出そうとしたらエラーにするなどの事前チェックも可能。
 	}
 
 	try {

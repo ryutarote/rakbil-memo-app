@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { CategoryList } from '@/components/categories/CategoryList';
-import { CreateMemoButton } from '@/components/memo/CreateMemoButton';
-import { DeleteMemoButton } from '@/components/memo/DeleteMemoButton';
+import { ActionButton } from '@/components/common/ActionButton';
+import { PlusIcon } from '@/components/common/icons/PlusIcon';
+import { TrashIcon } from '@/components/common/icons/TrashIcon';
 import { MemoListLoader } from './MemoListLoader';
 import { MemoEditorController } from './MemoEditorController';
 import { useMemoApp } from './hooks/useMemoApp';
@@ -72,9 +73,16 @@ export const MemoAppController: React.FC = () => {
 			<aside className='md:col-span-1 p-4 bg-white rounded-xl shadow-lg'>
 				<div className='flex justify-between items-center mb-6 border-b pb-3'>
 					<h2 className='text-2xl font-semibold text-gray-800'>カテゴリ一覧</h2>
-					<CreateMemoButton
+					<ActionButton
+						id='new-memo'
 						onClick={handleCreateMemo}
 						isDisabled={!expandedCategoryId}
+						text='新規メモ'
+						icon={<PlusIcon />}
+						titleEnabled='新規メモ作成'
+						titleDisabled='カテゴリを展開してメモを追加'
+						variant='primary'
+						size='md'
 					/>
 				</div>
 				{MemoOperationErrorDisplay} {/* エラー表示をここにも */}
@@ -91,9 +99,16 @@ export const MemoAppController: React.FC = () => {
 					<h2 className='text-2xl font-semibold text-gray-800'>
 						メモ詳細・編集
 					</h2>
-					<DeleteMemoButton
+					<ActionButton
+						id='delete-memo'
 						onClick={handleDeleteMemo}
 						isDisabled={!selectedMemoId}
+						text='削除'
+						icon={<TrashIcon />}
+						titleEnabled='選択中のメモを削除'
+						titleDisabled='削除するメモが選択されていません'
+						variant='danger'
+						size='sm'
 					/>
 				</div>
 				{MemoOperationErrorDisplay}
